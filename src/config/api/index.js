@@ -1,13 +1,15 @@
 import  axios from 'axios'
 
 
+console.log(process.env)
+
 const Api = axios.create({
-    baseURL: 'http://localhost:8000/api',
+    baseURL: `${process.env.REACT_APP_URL}/api`,
 })
 // http://localhost:8000/api/auth/login
 
 export const login = (data) => {
-   return axios.post('http://localhost:8000/api/auth/login', {...data})
+   return Api.post('/auth/login', {...data})
 }
 
 

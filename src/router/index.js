@@ -1,17 +1,9 @@
 import {
   Ecommerce,
   Orders,
-  Calendar,
   Employees,
-  Stacked,
-  Pyramid,
   Customers,
-  Line,
-  Area,
-  Bar,
-  Pie,
-  Financial,
-  ColorMapping,
+
   Product,
   Category,
   UpdateProduct,
@@ -111,76 +103,6 @@ export const privateRoutes = [
     element: UpdateUser,
     layout: DefaultLayout,
   },
-
-  // app
-  // {
-  //     path: '/kanban',
-  //     element: Kanban,
-  //     layout: DefaultLayout
-  // },
-  // {
-  //     path: '/editor',
-  //     element: Editor,
-  //     layout: DefaultLayout
-  // },
-  // {
-  //     path: '/calendar',
-  //     element: Calendar,
-  //     layout: DefaultLayout
-  // },
-  // {
-  //     path: '/color-picker',
-  //     element: ColorPicker,
-  //     layout: DefaultLayout
-  // },
-
-  // charts
-  // {
-  //     path: '/line',
-  //     element: Line,
-  //     layout: DefaultLayout
-  // },
-
-  // {
-  //     path: '/area',
-  //     element: ColorPicker,
-  //     layout: Area
-  // },
-
-  // {
-  //     path: '/bar',
-  //     element: Bar,
-  //     layout: DefaultLayout
-  // },
-
-  // {
-  //     path: '/pie',
-  //     element: Pie,
-  //     layout: DefaultLayout
-  // },
-
-  // {
-  //     path: '/financial',
-  //     element: Financial,
-  //     layout: DefaultLayout
-  // },
-
-  // {
-  //     path: '/color-mapping',
-  //     element: ColorMapping,
-  //     layout: DefaultLayout
-  // },
-
-  // {
-  //     path: '/pyramid',
-  //     element: Pyramid,
-  //     layout: DefaultLayout
-  // },
-  // {
-  //     path: '/stacked',
-  //     element: Stacked,
-  //     layout: DefaultLayout
-  // }
 ];
 
 export const publicRoutes = [

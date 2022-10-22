@@ -575,78 +575,7 @@ export const links = [
         icon: <RiContactsLine />,
       }
     ],
-  },
-  {
-    title: "Apps",
-    links: [
-      {
-        name: "calendar",
-        path: "calendar",
-        icon: <AiOutlineCalendar />,
-      },
-      {
-        name: "kanban",
-        path: "kanban",
-        icon: <BsKanban />,
-      },
-      {
-        name: "editor",
-        path: "editor",
-        icon: <FiEdit />,
-      },
-      {
-        name: "color-picker",
-        path: "color-picker",
-        icon: <BiColorFill />,
-      },
-    ],
-  },
-  {
-    title: "Charts",
-    links: [
-      {
-        name: "line",
-        path: "line",
-        icon: <AiOutlineStock />,
-      },
-      {
-        name: "area",
-        path: "area",
-        icon: <AiOutlineAreaChart />,
-      },
-
-      {
-        name: "bar",
-        path: "bar",
-        icon: <AiOutlineBarChart />,
-      },
-      {
-        name: "pie",
-        path: "pie",
-        icon: <FiPieChart />,
-      },
-      {
-        name: "financial",
-        path: "financial",
-        icon: <RiStockLine />,
-      },
-      {
-        name: "color-mapping",
-        path: "color-mapping",
-        icon: <BsBarChart />,
-      },
-      {
-        name: "pyramid",
-        path: "pyramid",
-        icon: <GiLouvrePyramid />,
-      },
-      {
-        name: "stacked",
-        path: "stacked",
-        icon: <AiOutlineBarChart />,
-      },
-    ],
-  },
+  }
 ];
 
 export const cartData = [
