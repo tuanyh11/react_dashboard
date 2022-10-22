@@ -15,3 +15,14 @@ export { default as Pie } from './Charts/Pie';
 export { default as ChartsHeader } from './ChartsHeader';
 export { default as Header } from './Header';
 
+// product
+
+export { default as ProductInfo } from './Product/ProductInfo';
+export { default as ProductVariant } from './Product/ProductVariant';
+export { default as ProductCxt } from './Product/ProductCxt';
+export { default as CardListProduct } from './Product/CardListProduct';
+
+// common
+
+export {default as OptionCheckbox} from './Common/OptionCheckbox';
+export {default as ImageInput} from './Common/ImageInput';
