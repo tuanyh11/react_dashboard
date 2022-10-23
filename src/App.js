@@ -22,7 +22,7 @@ const App = () => {
     }
   }, []);
 
-  console.log(USER)
+  const user = JSON.parse(localStorage.getItem('user'))
 
   return (
     <div className={currentMode === 'Dark' ? 'dark' : ''}>
@@ -49,7 +49,7 @@ const App = () => {
                 return 
               })
             } */}
-            <Route path={'/login'} element={USER ? <Navigate to={'/'}/> : <EmptyLayout><Login/></EmptyLayout>} />
+            <Route path={'/login'} element={ user?.token ? <Navigate to={'/'}/> : <EmptyLayout><Login/></EmptyLayout>} />
           </Routes>
       </BrowserRouter>
     </div>

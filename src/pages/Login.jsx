@@ -20,9 +20,8 @@ const Login = () => {
   const handleOnSubmit = async (data) => {
     try {
       const user = await login(data)
-      console.log(user)
       localStorage.setItem("user", JSON.stringify(user.data.data))
-      nav("/")
+      nav("/", {state: user.data.data})
     } catch (error) {
       alert("Error " + error?.response?.data?.message)
     }
