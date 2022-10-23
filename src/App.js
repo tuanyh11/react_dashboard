@@ -1,19 +1,17 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom';
-import { FiSettings } from 'react-icons/fi';
-import { TooltipComponent } from '@syncfusion/ej2-react-popups';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
-import { Navbar, Footer, Sidebar, ThemeSettings } from './components';
-import { Ecommerce, Orders, Calendar, Employees, Stacked, Pyramid, Customers, Kanban, Line, Area, Bar, Pie, Financial, ColorPicker, ColorMapping, Editor } from './pages';
 import './App.css';
 
 import { useStateContext } from './contexts/ContextProvider';
-import Login from './pages/Login';
 import {privateRoutes, publicRoutes} from './router'
-import { USER_INFO } from './config/CONST';
+import { USER} from './config/CONST';
+import { ProtectedRouter } from './components';
+import EmptyLayout from './Layout/EmptyLayout';
+import { Login } from './pages';
 
 const App = () => {
-  const { setCurrentColor, setCurrentMode, currentMode, activeMenu, currentColor, themeSettings, setThemeSettings } = useStateContext();
+  const { setCurrentColor, setCurrentMode, currentMode} = useStateContext();
 
   useEffect(() => {
     const currentThemeColor = localStorage.getItem('colorMode');
@@ -24,30 +22,35 @@ const App = () => {
     }
   }, []);
 
+  console.log(USER)
+
   return (
     <div className={currentMode === 'Dark' ? 'dark' : ''}>
       <BrowserRouter>
-        <Routes>
-          {USER_INFO &&
-            privateRoutes.map((route, index) => {
+        
 
-              const Layout = route.layout
-              const Element = route.element
-              const path = route.path
-              return <Route path={path} key={index} element={<Layout><Element/></Layout>} />
-            }) 
-          }
-          {
-            publicRoutes.map((route, index) => {
-              const Layout = route.layout
-              const Element = route.element
-              const path = route.path
-              return <Route path={path} key={index} element={USER_INFO && path === '/login' ? <Navigate to={'/'}/> : <Layout><Element/></Layout>} />
-            })
-          }
-          <Route path={'*'}  element={!USER_INFO  && <Navigate to={'/login'}/>} />
-          <Route path={'*'}  element={USER_INFO  && <Navigate to={'/'}/>} />
-        </Routes>
+          <Routes>
+            <Route element={<ProtectedRouter/>}>
+              {
+                privateRoutes.map((route, index) => {
+
+                  const Layout = route.layout
+                  const Element = route.element
+                  const path = route.path
+                  return <Route path={path} key={index} element={<Layout><Element/></Layout>} />
+                }) 
+              }
+            </Route>
+            {/* {
+              publicRoutes.map((route, index) => {
+                const Layout = route.layout
+                const Element = route.element
+                const path = route.path
+                return 
+              })
+            } */}
+            <Route path={'/login'} element={USER ? <Navigate to={'/'}/> : <EmptyLayout><Login/></EmptyLayout>} />
+          </Routes>
       </BrowserRouter>
     </div>
   );

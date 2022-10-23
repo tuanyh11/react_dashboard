@@ -66,12 +66,7 @@ const UpdateUser = () => {
     name: "roleId",
   });
 
-  const isEmployee = roles.some(
-    ({ _id, name }) =>
-      _id === roleId.value &&
-      name.toLowerCase() !== "admin" &&
-      name.toLowerCase() !== "user"
-  );
+
 
   const handleOnSubmit = async (data) => {
     try {
@@ -232,7 +227,7 @@ const UpdateUser = () => {
                     perViewFile={isFileList ? field.value : image.value}
                   />
                 </div>
-                {isEmployee && (
+                {false && (
                   <div className="">
                     <div className="text-3xl font-extrabold tracking-tight text-slate-900 my-10">
                       Contract

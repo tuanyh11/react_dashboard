@@ -1,135 +1,109 @@
-
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { login } from "../config/api";
 
 const Login = () => {
-
-  const [dataForm, setDataForm] = useState({
-    password: "",
-    email: ""
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
   });
 
-  const [error, setError] = useState({})
+  const nav = useNavigate()
 
-  const [showPassword, setShowPassword] = useState(false)
-
-  const [isSubmit, setIsSubmit] = useState(false)
-
-  const [errorRes, setErrorRes] = useState()
-
-  const navigation = useNavigate()
-
-  useEffect(() => {
-    if(isSubmit && Object.keys(error ? error : {}).length === 0)  {
-        (async () => {
-            try {
-               const {data} =  await login(dataForm)
-               localStorage.setItem('user', JSON.stringify(data.data))
-               navigation("/")
-            } catch (error) {
-                setErrorRes(error.response.data.message)
-            }
-        })()
+  const handleOnSubmit = async (data) => {
+    try {
+      const user = await login(data)
+      console.log(user)
+      localStorage.setItem("user", JSON.stringify(user.data.data))
+      nav("/")
+    } catch (error) {
+      alert("Error " + error?.response?.data?.message)
     }
-    setIsSubmit(false)  
-  }, [isSubmit])
+  };
 
 
-  const handleOnSubmit = (e) => {
-    e.preventDefault()
-    setErrorRes(null)
-    if(!dataForm.email  && !dataForm.password) {
-        setError(pre => ({...pre, 
-            email: "email is required",
-            password: "password is required"
-        }))
-    }
-
-    if(!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/).test(dataForm.email)) {
-        setError( 
-            pre => ({
-            ...pre,
-            email: "incorrect email"
-        }))
-    }
-
-    setIsSubmit(true)
-  }
-
-  const handleOnChange = (e) => {
-    if(error?.[e.target.name]) {
-        delete error[e.target.name]
-    }
-    setDataForm({
-      ...dataForm,
-      [e.target.name]: e.target.value,
-    })
-  }
 
 
   return (
-    <div>
-      <div className="relative  h-[100vh]">
-        <div className="absolute left-1/2  py-[80px] w-[660px] px-[75px] border rounded-md bg-white top-1/2 z-10 -translate-x-1/2 -translate-y-1/2">
-          <form className="" onSubmit={(e) => handleOnSubmit(e)}>
-            <div className="flex items-center justify-center text-3xl uppercase ">
-                Login
-            </div>
-            <div className="mt-[70px]">
-
-              <div className="flex flex-col !mb-5">
-                <span className="text-sm font-medium mb-1">Email</span>
-                {error?.email && <p className="text-sm mb-1 text-red-500">{error.email}</p>} 
+    <div className="relative w-full">
+      <div className="absolute top-0 left-1/2 shadow-lg  translate-y-1/2 -translate-x-1/2">
+        <div className="p-12 pb-0 text-4xl text-primary">LOGIN</div>
+        <div className="flex items-center justify-center p-12 ">
+          <div className="mx-auto w-[550px]">
+            <form onSubmit={handleSubmit(handleOnSubmit)}>
+              <div className="mb-5">
+                <span className="mb-3 block text-base font-medium text-[#07074D]">
+                  Email
+                </span>
+                {errors?.email?.message && (
+                  <div
+                    className="p-2 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800"
+                    role="alert"
+                  >
+                    <span className="font-medium">Alert!</span> {errors.email.message}
+                  </div>
+                )}
                 <input
-                  onChange={handleOnChange}
-                  name="email"
-                  value={dataForm.email}
                   type="text"
-                  className="outline-none  border !py-3 px-3 rounded-md text-sm"
+                  {...register("email", {
+                    pattern: {
+                      value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
+                      message: "invalid email type",
+                    },
+                    required: {
+                      value: true,
+                      message: "Email is required",
+                    },
+                  })}
+                  placeholder="Email"
+                  className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                 />
               </div>
-
-              <div className="flex flex-col !mb-5">
-                <span className="text-sm font-medium mb-1">Password</span>
-                {error?.password && <p className="text-sm mb-1 text-red-500">{error.password}</p>} 
+              <div className="mb-5">
+                <span className="mb-3 block text-base font-medium text-[#07074D]">
+                  Password
+                </span>
+                {errors?.password?.message && (
+                  <div
+                    className="p-2 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800"
+                    role="alert"
+                  >
+                    <span className="font-medium">Alert!</span> {errors.password.message}
+                  </div>
+                )}
                 <input
-                  onChange={handleOnChange}
-                  name="password"
-                  value={dataForm.password}
-                  
-                  type={showPassword ? "text" : "password" }
-                  className="outline-none  border !py-3 px-3 rounded-md text-sm"
+                  type="password"
+                  {...register("password", {
+                    required: {
+                      value: true,
+                      message: "Password is required",
+                    },
+                  })}
+                  placeholder="Your password"
+                  className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                 />
               </div>
 
-
-              <div className="flex items-center justify-between">
-                <div className="flex items-center !mt-5">
-                  <input type="checkbox" name="" id="" onChange={() => setShowPassword(pre => !pre)} />
-                  <span className="text-sm font-medium ml-3">
-                    Show password
-                  </span>
-                </div>
+              <div>
+                <button type="submit" className="hover:shadow-form rounded-md !bg-primary py-3 px-8 text-base font-semibold text-white outline-none">
+                  Login
+                </button>
               </div>
-            </div>
-            <div className="">
-              <button className="block w-full text-white bg-primary transition rounded-md mt-6 h-[55px]  opacity-80 hover:opacity-100 capitalize">
-                {"login"}
-              </button>
-            </div>
-          </form>
-          {errorRes && 
-            <div className="text-md mt-10 capitalize text-red-500">
-                {errorRes}
-            </div>
-          }
+            </form>
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
+
+
 export default Login;
-
-

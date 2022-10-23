@@ -18,7 +18,6 @@ const Users = () => {
 
      const newRoles = await Promise.all([...roles])
 
-     console.log(newRoles)
 
      const users = res.data.data.map((item, i) => {
         item.roleId = newRoles[i].data.data
@@ -36,6 +35,7 @@ const Users = () => {
     handleGetUser()
   }, [])
 
+  console.log(URL_APi)
   
   const handleDel = async (user) => {
     if (window.confirm("do you want to delete this User?")) {

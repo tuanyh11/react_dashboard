@@ -26,3 +26,5 @@ export { default as CardListProduct } from './Product/CardListProduct';
 
 export {default as OptionCheckbox} from './Common/OptionCheckbox';
 export {default as ImageInput} from './Common/ImageInput';
+
+export {default as ProtectedRouter} from './Common/ProtectedRouter'
