@@ -2,6 +2,7 @@ import React from "react";
 import { URL_APi } from "../../config/CONST";
 
 const Table = ({ products = [], setOpenTable, register }) => {
+
   return (
     <div className="overflow-x-auto shadow-md sm:rounded-lg ">
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -68,9 +69,10 @@ const Table = ({ products = [], setOpenTable, register }) => {
                 className="py-4 px-6 font-medium text-black whitespace-nowrap dark:text-white"
               >
                 {product.name}
+                {  console.log(`${URL_APi}${product.image}`)}
               </th>
               <td className="p-4 w-32">
-                <img src={`${URL_APi}${product.image}`} alt="Apple Watch" />
+                <img src={`${URL_APi}${product.image}` } alt="Apple Watch" />
               </td>
               <td className="py-4 px-6">{product.quantity}</td>
               <td className="py-4 px-6">{product.price}</td>
