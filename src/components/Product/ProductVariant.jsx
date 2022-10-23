@@ -22,6 +22,7 @@ const ProductVariant = () => {
     handleSubmit,
     register,
     control,
+    setError,
     formState: { errors },
     getValues,
     watch,
@@ -41,70 +42,71 @@ const ProductVariant = () => {
     fields: fieldsProcItem,
     append: appendProcItem,
     remove: removeProcItem,
-
   } = useFieldArray({
     control,
     name: "procItems",
   });
 
-
   const autoCreateAtt = (data) => {
-    const attributes = data?.variants?.reduce(
-      (acc, { v: val }) => {
-        return acc
-          .map((el) => {
-            return val.map((element) => {
-              return el.concat([element]);
-            });
-          })
-          .reduce((acc, val) => acc.concat(val), []);
-      },
-      [[]]
-    );
+    if (
+      data?.variants.length > 0 &&
+      data?.variants[0].k &&
+      !!data?.variants[0].v?.[0]?.text
+    ) {
+      const attributes = data?.variants?.reduce(
+        (acc, { v: val }) => {
+          return acc
+            .map((el) => {
+              return val.map((element) => {
+                return el.concat([element]);
+              });
+            })
+            .reduce((acc, val) => acc.concat(val), []);
+        },
+        [[]]
+      );
 
-    const flatAttributes = attributes.map((val) => {
-      return val.map((item) => item.text);
-    });
+      const flatAttributes = attributes.map((val) => {
+        return val.map((item) => item.text);
+      });
 
-    const newProductItems = flatAttributes.reduce(
-      (acc, val) =>
-        acc.concat({
-          option: val.join("-"),
-          price: "",
-          image: "",
-          unique: val.sort().join("").replaceAll(" ", ""),
-        }),
-      []
-    );
+      const newProductItems = flatAttributes.reduce(
+        (acc, val) =>
+          acc.concat({
+            option: val.join("-"),
+            price: "",
+            image: "",
+            quantity: "",
+            unique: val.sort().join("").replaceAll(" ", ""),
+          }),
+        []
+      );
 
-    newProductItems.forEach((element) => {
-      appendProcItem({ ...element });
-    });
+      newProductItems.forEach((element) => {
+        appendProcItem({ ...element });
+      });
 
-    setProductItems(...newProductItems)
+      setProductItems(...newProductItems);
+    } else window.confirm("Ít nhất phải có 1 trường Cha và trường Con");
   };
 
   useEffect(() => {
     setValue("applyPrice", watch("price"));
+    setValue("applyQty", watch("quantity"));
   }, [fieldsProcItem]);
 
-
-  console.log(fieldsProcItem)
-
   const handleApplyAll = () => {
-    console.log(getValues("price"))
-    fieldsProcItem.forEach((item, i) =>
-      setValue(`procItems[${i}].price`, getValues("applyPrice"))
-    );
+    fieldsProcItem.forEach((item, i) => {
+      setValue(`procItems[${i}].price`, getValues("applyPrice"));
+      setValue(`procItems[${i}].quantity`, getValues("applyQty"));
+    });
   };
 
-  const handleClearAll = (data) => {
-    handleCreateProduct(data)
-  } 
+
 
   return (
     <div className=" grid grid-cols-1 gap-4">
-      <div className="bg-white p-10 rounded-xl shadow-md">
+      <div className="relative bg-white p-10 rounded-xl shadow-md">
         <h1 className="text-lg font-extrabold">Variant</h1>
         <div className="mt-8">
           {fields.map((item, index) => (
@@ -155,28 +157,26 @@ const ProductVariant = () => {
       {fieldsProcItem.length > 0 && (
         <div className="bg-white p-10 rounded-xl shadow-md relative ">
           <h1 className="text-lg font-extrabold">Product Items</h1>
-
-
-          <div className="mt-10 flex gap-4 items-center">
-            <span>Price</span>
-            <div className=" flex items-center gap-4">
-              <input
-                {...register("applyPrice", {
-                  maxLength: {
-                    value: 20,
-                    message: "Product price less than 20 characters long",
-                  },
-                  min: {
-                    value: 0,
-                    message: "Product price must greater than or equal zero",
-                  },
-                  pattern: {
-                    value: /^[0-9]*$/,
-                    message: "Product price is should be mumber",
-                  },
-                })}
-                className="outline-none  border  !py-3 px-3 rounded-md text-sm"
-              />
+          <div className="flex gap-4 items-center">
+            <div className="mt-10 flex gap-4 items-center">
+              <span>Price</span>
+              <div className=" flex items-center gap-4">
+                <input
+                  type="number"
+                  {...register("applyPrice")}
+                  className="outline-none  border  !py-3 px-3 rounded-md text-sm"
+                />
+              </div>
+            </div>
+            <div className="mt-10 flex gap-4 items-center">
+              <span>Quantity</span>
+              <div className=" flex items-center gap-4">
+                <input
+                  type="number"
+                  {...register("applyQty")}
+                  className="outline-none  border  !py-3 px-3 rounded-md text-sm"
+                />
+              </div>
               <button
                 onClick={() => handleApplyAll()}
                 className="bg-primary px-4 py-3 rounded-lg text-white"
@@ -239,17 +239,21 @@ const ProductVariant = () => {
                       />
                     </div>
                   </td>
-                  <td className="p-2 flex items-center gap-2">
 
-                  {/* alert */}
-                  {(errors?.procItems?.[i]?.price || errors?.procItems?.[i]?.image)  &&
-                    <div
-                      className="absolute top-0 bg-red-100 rounded-lg py-5 px-6 text-sm text-red-700 mb-3 right-[0]"
-                      role="alert"
-                    >
-                      Warning alert - {errors?.procItems?.[i]?.price?.message || errors?.procItems?.[i]?.image?.message} {`at row ${i + 1}`}
-                    </div>
-                  }
+                  <td className="p-2 flex items-center gap-2">
+                    {/* alert */}
+                    {(errors?.procItems?.[i]?.price ||
+                      errors?.procItems?.[i]?.image) && (
+                      <div
+                        className="absolute top-0 bg-red-100 rounded-lg py-5 px-6 text-sm text-red-700 mb-3 right-[0]"
+                        role="alert"
+                      >
+                        Warning alert -{" "}
+                        {errors?.procItems?.[i]?.price?.message ||
+                          errors?.procItems?.[i]?.image?.message}{" "}
+                        {`at row ${i + 1}`}
+                      </div>
+                    )}
 
                     {watch("procItems")?.[i]?.image && (
                       <img
@@ -297,6 +301,30 @@ const ProductVariant = () => {
                       />
                     </div>
                   </td>
+                  <td>
+                    <div className="">
+                      <input
+                        type="number"
+                        className="shadow appearance-none  border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        {...register(`procItems[${i}].quantity`, {
+                          required: {
+                            value: true,
+                            message: "Product quantity is required",
+                          },
+                          min: {
+                            value: 0,
+                            message:
+                              "Product quantity must greater than or equal zero",
+                          },
+                          pattern: {
+                            value: /^[0-9]*$/,
+                            message: "Product quantity is should be mumber",
+                          },
+                        })}
+                      />
+                    </div>
+                  </td>
+
                   <td className="p-2">
                     <div className="">{item.unique}</div>
                   </td>
@@ -317,7 +345,7 @@ const ProductVariant = () => {
 
       <div className="flex gap-10">
         <button
-          onClick={handleSubmit((data, e) => handleClearAll(data))}
+          onClick={handleSubmit((data, e) => handleCreateProduct(data))}
           className="px-2 py-1 bg-primary text-white rounded-lg"
         >
           Create

@@ -5,21 +5,10 @@ import { RiAddCircleLine, RiDeleteBin6Line } from "react-icons/ri";
 const InputVariant = ({
   control,
   register,
-  handleSubmit,
-  getValues,
-  reset,
-  setValue,
-  fields,
-  prepend,
   remove,
-  swap,
-  move,
-  insert,
   index,
   isChildren,
   label,
-  currentIndex,
-  item,
   errors,
 }) => {
   const {
@@ -41,6 +30,7 @@ const InputVariant = ({
         <div className="relative">
           <input
             className="outline-none  border w-full  !py-3 px-3 rounded-md text-sm"
+            placeholder="color, size..."
             {...register(`variants[${index}].k`, {
               required: {
                 value: true,
@@ -64,6 +54,7 @@ const InputVariant = ({
             </div>
             <div className="relative ">
               <input
+                placeholder="red, blue, green, sm, s, lg..."
                 className="outline-none  border w-full  !py-3 px-3 rounded-md text-sm"
                 {...register(`variants[${index}].v[${i}].text`, {
                   required: {

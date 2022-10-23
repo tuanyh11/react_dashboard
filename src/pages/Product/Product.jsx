@@ -5,39 +5,45 @@ import { delProduct, getProducts } from "../../config/api";
 import { URL_APi } from "../../config/CONST";
 
 const Products = () => {
-
-  const [products, setProducts] = useState([])
+  const [products, setProducts] = useState([]);
 
   const handleGetProducts = async () => {
     try {
-      const {data} = await getProducts()
-      setProducts(data.data)
+      const { data } = await getProducts();
+      setProducts(data.data);
     } catch (error) {
-      alert('Error' + error?.response?.message)
+      alert("Error" + error?.response?.message);
     }
-  }
+  };
 
   useEffect(() => {
-    handleGetProducts()
-  }, [])
+    handleGetProducts();
+  }, []);
 
   const handleDelProdoct = async (id) => {
     try {
-      if(window.confirm("Are you sure you want to delete this product?")) {
-        await delProduct(id)
-        alert("delete product successfully")
-        handleGetProducts()
+      if (window.confirm("Are you sure you want to delete this product?")) {
+        await delProduct(id);
+        alert("delete product successfully");
+        handleGetProducts();
       }
     } catch (error) {
-      alert("Error"+error?.response?.message)
+      alert("Error" + error?.response?.message);
     }
-  }
-
+  };
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 rounded-3xl">
       <div className="bg-white rounded-3xl md:p-10">
         <Header category="Page" title="Products" />
+        <div className="my-10">
+          <Link
+            to="/create-product"
+            className="font-bold py-2 px-4 rounded bg-primary text-white"
+          >
+            Create User
+          </Link>
+        </div>
       </div>
       <div className="mt-10">
         <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
@@ -63,37 +69,35 @@ const Products = () => {
             </thead>
             <tbody>
               {products.map((product) => (
-                <tr key={product._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                <tr
+                  key={product._id}
+                  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                >
                   <td className="p-4 w-32">
-                    <img
-                      src={`${URL_APi}${product.image}`}
-                      alt="Apple Watch"
-                    />
+                    <img src={`${URL_APi}${product.image}`} alt="Apple Watch" />
                   </td>
                   <td className="py-4 px-6 font-semibold text-gray-900 dark:text-white">
-                    {
-                      product.name
-                    }
+                    {product.name}
                   </td>
                   <td className="py-4 px-6">
                     <div className="flex items-center space-x-3">
-                      {
-                        product.quantity
-                      }
+                      {product.quantity}
                     </div>
                   </td>
                   <td className="py-4 px-6 font-semibold text-gray-900 dark:text-white">
-                      {
-                        product.price
-                      }
+                    {product.price}
                   </td>
                   <td className="py-4 px-6 text-start">
                     <button
                       onClick={() => handleDelProdoct(product._id)}
-                       className="font-medium text-red-600 dark:text-red-500 hover:underline mr-4">
+                      className="font-medium text-red-600 dark:text-red-500 hover:underline mr-4"
+                    >
                       Remove
                     </button>
-                    <Link to={'/update_product/'+product._id} className="font-medium text-red-600 dark:text-red-500 hover:underline mx-4">
+                    <Link
+                      to={"/update_product/" + product._id}
+                      className="font-medium text-red-600 dark:text-red-500 hover:underline mx-4"
+                    >
                       Update
                     </Link>
                   </td>

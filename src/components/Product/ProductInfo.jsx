@@ -177,7 +177,7 @@ const ProductInfo = () => {
           <div className="flex flex-col !mb-5">
             <span className="text-sm font-medium mb-1">Unit</span>
             <span className="text-sm  text-red-500 mb-2">
-              {errors?.name?.message}
+              {errors?.unit?.message}
             </span>
             <input
               {...register("unit", {

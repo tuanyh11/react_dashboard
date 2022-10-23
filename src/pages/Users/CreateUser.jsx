@@ -27,7 +27,7 @@ const CreateUser = () => {
       email: "",
       password: "",
       passwordConfirm: "",
-      roleId: 0,
+      roleId: undefined,
       userName: "",
       avatar: "",
       address: {
@@ -61,7 +61,6 @@ const CreateUser = () => {
       name.toLowerCase() !== "admin" &&
       name.toLowerCase() !== "user"
   );
-  console.log(watch("contract.content"));
 
   const handleOnSubmit = async (data) => {
     try {
@@ -113,12 +112,7 @@ const CreateUser = () => {
 
   var isFileList = field.value instanceof FileList && field.value.length > 0;
 
-  const registerRole = register('roleId', {
-    required: {
-      value: true,
-      message: "Role is required",
-    },
-  })
+  const registerRole = register('roleId')
 
   return (
     <div>
@@ -196,7 +190,7 @@ const CreateUser = () => {
                 <div className="flex flex-col !mb-5">
                   <span className="text-sm font-medium mb-1">User name</span>
                   <span className="text-sm  text-red-500 mb-2">
-                    {errors?.password?.message}
+                    {errors?.userName?.message}
                   </span>
 
                   <input

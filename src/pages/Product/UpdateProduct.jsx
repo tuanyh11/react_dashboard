@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Header, ProductVariant } from "../../components";
 import {  useController, useForm } from "react-hook-form";
 import { delImage, getCategories, getProduct, updateProduct, uploadMultipleImage, uploadSigleImage } from "../../config/api";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { URL_APi } from "../../config/CONST";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import UpdateVariant from "./UpdateVariant";
@@ -32,6 +32,8 @@ const UpdateProduct = () => {
 
   const id = useParams()?.id;
 
+  const nav = useLocation()
+
   var handleGeData = async () => {
     try {
       const resCate = await getCategories();
@@ -49,6 +51,7 @@ const UpdateProduct = () => {
       alert("errors " + error?.response?.data?.message);
     }
   };
+
 
   const {  variants, categories: category} = product;
 
@@ -90,6 +93,8 @@ const UpdateProduct = () => {
       
 
       alert(res.data.message)
+      nav('/product')
+
     } catch (error) {
       alert("Error " + error?.response?.data?.message)
     }

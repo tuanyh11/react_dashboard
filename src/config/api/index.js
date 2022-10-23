@@ -111,8 +111,8 @@ export const createUser= (data) => {
   return Api.post('/user', {...data})
 }
 
-export const getUsers = () => {
-  return Api.get('/user/')
+export const getUsers = (query) => {
+   return query ? Api.get(`/user/by_position?name=${query}`) : Api.get(`/user/by_position`)
 }
 
 export const getUser = (id) => {

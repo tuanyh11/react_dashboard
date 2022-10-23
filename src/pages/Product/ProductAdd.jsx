@@ -10,7 +10,7 @@ const ProductAdd = () => {
     <ProductCxt >
       <div className="m-2 md:m-10 mt-24 p-2 ">
         <div className="bg-white rounded-3xl md:p-10"><Header category="Page" title="Create Product" /></div>
-        <div className="grid lg:grid-cols-2 mt-10 gap-4">
+        <div className="grid lg:grid-cols-0 mt-10 gap-4">
 
           <div className="grid lg:grid-cols-1 gap-6">
             <ProductInfo/>

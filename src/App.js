@@ -5,12 +5,13 @@ import './App.css';
 
 import { useStateContext } from './contexts/ContextProvider';
 import {privateRoutes, publicRoutes} from './router'
-import { USER} from './config/CONST';
 import { ProtectedRouter } from './components';
 import EmptyLayout from './Layout/EmptyLayout';
 import { Login } from './pages';
 
+
 const App = () => {
+
   const { setCurrentColor, setCurrentMode, currentMode} = useStateContext();
 
   useEffect(() => {
@@ -41,14 +42,6 @@ const App = () => {
                 }) 
               }
             </Route>
-            {/* {
-              publicRoutes.map((route, index) => {
-                const Layout = route.layout
-                const Element = route.element
-                const path = route.path
-                return 
-              })
-            } */}
             <Route path={'/login'} element={ user?.token ? <Navigate to={'/'}/> : <EmptyLayout><Login/></EmptyLayout>} />
           </Routes>
       </BrowserRouter>

@@ -2,7 +2,6 @@ import {
   Ecommerce,
   Orders,
   Employees,
-  Customers,
 
   Product,
   Category,
@@ -40,11 +39,6 @@ export const privateRoutes = [
   {
     path: "/employees",
     element: Employees,
-    layout: DefaultLayout,
-  },
-  {
-    path: "/customers",
-    element: Customers,
     layout: DefaultLayout,
   },
 

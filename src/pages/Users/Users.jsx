@@ -10,21 +10,8 @@ const Users = () => {
   var handleGetUser = async () => {
     try {
       const res = await getUsers();
-
-      const roles = res.data.data?.map(async (user) => {
-        const item = await getUserRole(user.roleId)
-        return item
-      })
-
-     const newRoles = await Promise.all([...roles])
-
-
-     const users = res.data.data.map((item, i) => {
-        item.roleId = newRoles[i].data.data
-        return item
-     } )
      
-      setUsers(users);
+      setUsers(res.data.data);
 
     } catch (error) {
       alert(error);
@@ -53,7 +40,7 @@ const Users = () => {
   return (
     <div>
       <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
-        <Header category="Page" title="Products" />
+        <Header category="Page" title="Users" />
         <div className="my-10">
           <Link
             to="/create-user"
@@ -99,7 +86,7 @@ const Users = () => {
                     {item.userName}
                   </td>
                   <td className="py-4 px-6 font-semibold text-gray-900 dark:text-white">
-                    {item?.roleId?.name}
+                    {item?.userRole?.name}
                   </td>
                   <td className="py-4 px-6 flex flex-col ">
                     <button

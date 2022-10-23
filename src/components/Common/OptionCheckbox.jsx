@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { RiArrowDownSLine } from "react-icons/ri";
 
-const OptionCheckbox = ({label, error, data = [], register, name, type}) => {
+const OptionCheckbox = ({label, error, data = [], register = () => {}, name, type}) => {
     const [toggle, setToggle] = useState(false)
 
   return (

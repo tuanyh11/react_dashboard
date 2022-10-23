@@ -21,7 +21,7 @@ const UserRole = () => {
     defaultValues: {
       name: "",
       displayName: "",
-      monthlySalary: 0,
+      monthlySalary: '',
       active: true,
     },
   });
@@ -88,28 +88,32 @@ const UserRole = () => {
     <div>
       <div className="m-2 md:m-10 mt-24 p-2 md:p-10 rounded-3xl">
         <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
-          <Header category="Page" title="Products" />
+          <Header category="Page" title="User Role" />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div className="">
               <form
                 action=""
                 onSubmit={handleSubmit((data) => handleOnSubmit(data))}
               >
-                <div className="flex flex-col !mb-5">
-                  <span className="text-sm font-medium mb-1">Name</span>
-                  <span className="text-sm  text-red-500 mb-2">
-                    {errors?.name?.message}
-                  </span>
-                  <input
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-primary focus:outline-none focus:ring-0 focus:border-primary peer"
-                    {...register("name", {
-                      required: {
-                        value: true,
-                        message: "This field is required",
-                      },
-                    })}
-                  />
-                </div>
+                {
+                  !isUpdate &&
+                  <div className="flex flex-col !mb-5">
+                    <span className="text-sm font-medium mb-1">Name</span>
+                    <span className="text-sm  text-red-500 mb-2">
+                      {errors?.name?.message}
+                    </span>
+                    <input
+                      className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-primary focus:outline-none focus:ring-0 focus:border-primary peer"
+                      {...register("name", {
+                        required: {
+                          value: true,
+                          message: "This field is required",
+                        },
+                        onChange: (e) => setValue("name", e.target.value.replace(' ', ''))
+                      })}
+                    />
+                  </div>
+                }
 
                 <div className="flex flex-col !mb-5">
                   <span className="text-sm font-medium mb-1">Display Name</span>
@@ -129,46 +133,12 @@ const UserRole = () => {
                   />
                 </div>
 
-                <div className="flex flex-col !mb-5  jus">
-                  <span className="text-sm font-medium mb-1">Active</span>
-
-                  <div className="flex items-center pl-3">
-                    <label
-                      htmlFor="horizontal-list-radio-license"
-                      className="py-3 ml-2 w-full text-sm font-medium text-gray-900 dark:text-gray-300"
-                    >
-                      true
-                    </label>
-
-                    <input
-                      {...register("active")}
-                      type="radio"
-                      value={true}
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                    />
-                  </div>
-                  <div className="flex items-center pl-3">
-                    <label
-                      htmlFor="horizontal-list-radio-id"
-                      className="py-3 ml-2 w-full text-sm font-medium text-gray-900 dark:text-gray-300"
-                    >
-                      false
-                    </label>
-                    <input
-                      type="radio"
-                      value={false}
-                      {...register("active")}
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                    />
-                  </div>
-                </div>
-
                 <div className="flex flex-col !mb-5">
                   <span className="text-sm font-medium mb-1">
                     Monthly Salary
                   </span>
                   <span className="text-sm  text-red-500 mb-2">
-                    {errors?.saleInfo?.salePercent?.message}
+                    {errors?.monthlySalary?.message}
                   </span>
 
                   <input
