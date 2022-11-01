@@ -27,7 +27,7 @@ const Users = () => {
   const handleDel = async (user) => {
     if (window.confirm("do you want to delete this User?")) {
       try {
-        await delImage(user?.avatar)
+        if(user?.avatar) await delImage(user?.avatar)
         await delUser(user._id);
         alert("delete Role successfully");
         handleGetUser();

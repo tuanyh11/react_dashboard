@@ -16,14 +16,13 @@ export { default as ChartsHeader } from './ChartsHeader';
 export { default as Header } from './Header';
 
 // product
-
-export { default as ProductInfo } from './Product/ProductInfo';
-export { default as ProductVariant } from './Product/ProductVariant';
-export { default as ProductCxt } from './Product/ProductCxt';
-export { default as CardListProduct } from './Product/CardListProduct';
+export {default as BasicInfo} from './Product/BasicInfo';
+export {default as SaleInfo} from './Product/SaleInfo';
+export {default as UpdateSaleInfo} from './Product/UpdateSaleInfo';
 
 // common
 
+export {default as ErrorMess} from './Common/ErrorMess'
 export {default as OptionCheckbox} from './Common/OptionCheckbox';
 export {default as ImageInput} from './Common/ImageInput';
 

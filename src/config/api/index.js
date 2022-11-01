@@ -1,10 +1,15 @@
 import  axios from 'axios'
 
 
-console.log(process.env)
 
 const Api = axios.create({
     baseURL: `${process.env.REACT_APP_URL}api`,
+})
+
+Api.interceptors.request.use((config) => {
+  const token = JSON.parse(localStorage.getItem("user"))?.token
+  config.headers.Authorization = token ? token : ''
+  return config
 })
 // http://localhost:8000/api/auth/login
 
@@ -125,4 +130,11 @@ export const delUser = (id) => {
 
 export const updateUser = (id, data) => {
   return Api.put('/user/'+id, data)
+}
+
+
+// Order 
+
+export const getOrdersApi= () => {
+  return Api.get('/order/')
 }

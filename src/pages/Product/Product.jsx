@@ -41,7 +41,7 @@ const Products = () => {
             to="/create-product"
             className="font-bold py-2 px-4 rounded bg-primary text-white"
           >
-            Create User
+            Create Product
           </Link>
         </div>
       </div>

@@ -1,89 +1,54 @@
 import React from "react";
+import { RiDeleteBinLine, RiAddFill } from "react-icons/ri";
 import { useFieldArray } from "react-hook-form";
-import { RiAddCircleLine, RiDeleteBin6Line } from "react-icons/ri";
 
-const InputVariant = ({
-  control,
-  register,
-  remove,
-  index,
-  isChildren,
-  label,
-  errors,
-}) => {
-  const {
-    fields: fieldsChil,
-    remove: removeChil,
-    append,
-  } = useFieldArray({
+const InputVariant = ({ register, control, index, errors, handleSetProductItems }) => {
+  const { fields, append, remove } = useFieldArray({
     control,
     name: `variants[${index}].v`,
   });
-
-  const { k, v } = errors?.variants?.[index] ? errors.variants[index] : { k: "", v: "" };
-
   return (
-    <div>
-      <div className={`flex flex-col   !mb-5}`}>
-        {label && <span className="text-sm font-medium mb-1">{label}</span>}
-        <span className="text-sm  text-red-500 mb-2">{k?.message}</span>
-        <div className="relative">
-          <input
-            className="outline-none  border w-full  !py-3 px-3 rounded-md text-sm"
-            placeholder="color, size..."
-            {...register(`variants[${index}].k`, {
-              required: {
-                value: true,
-                message: "This field is required",
-              },
-            })}
-          />
-          <div
-            onClick={() => remove(index)}
-            className="absolute top-1/2 right-2 cursor-pointer -translate-y-1/2"
-          >
-            <RiDeleteBin6Line />
-          </div>
-        </div>
-      </div>
-      {fieldsChil?.map((item, i) => (
-        <div key={i} className=" flex justify-center my-6">
-          <div className="w-3/4 ">
-            <div className="text-sm  text-red-500 mb-2">
-                {v?.[i]?.text?.message}
-            </div>
-            <div className="relative ">
-              <input
-                placeholder="red, blue, green, sm, s, lg..."
-                className="outline-none  border w-full  !py-3 px-3 rounded-md text-sm"
-                {...register(`variants[${index}].v[${i}].text`, {
-                  required: {
-                    value: true,
-                    message: "This field is required",
-                  },
-                })}
-              />
-              <div
-                onClick={() => removeChil(i)}
-                className="absolute top-1/2 right-2 cursor-pointer -translate-y-1/2"
-              >
-                <RiDeleteBin6Line />
+    <div className=" ">
+      <span>Product classification </span>
+      <div className="grid grid-cols-6 place-items-center">
+        {fields.map((field, i) => {
+          const errorMess = errors?.variants?.[index]?.v?.[i]?.text?.message;
+          return (
+            <div className="flex flex-col  gap-2 mb-6 mt-6 relative " key={field.id}>
+              <span className="text-sm  text-red-500 absolute -top-1/2">{errorMess}</span>
+              <div className="flex items-center">
+                <input
+                  {...register(`variants[${index}].v[${i}].text`, {
+                    required: {
+                      value: true,
+                      message: "This field is required",
+                    },
+                    onChange: () => handleSetProductItems()
+                  })}
+                  className={`outline-none  border !py-3 px-3 w-1/2 rounded-md text-sm ${
+                    errorMess ? "border-red-500" : ""
+                  }`}
+                  placeholder="red, sm..."
+                />
+                <button
+                  onClick={() => append({ text: "" })}
+                  className="text-2xl p-1 rounded-full text-gray-400 hover:text-gray-600 hover:scale-110 transition"
+                >
+                  <RiAddFill />
+                </button>
+                <button
+                  onClick={() => fields.length > 1 && remove(field.id)}
+                  className={`text-2xl p-1 rounded-full  text-gray-400 hover:text-gray-600 hover:scale-110 transition ${
+                    fields.length === 1 ? "!cursor-not-allowed" : ""
+                  }`}
+                >
+                  <RiDeleteBinLine />
+                </button>
               </div>
             </div>
-          </div>
-        </div>
-      ))}
-
-      {!isChildren && (
-        <div
-          onClick={() => append({ text: "" })}
-          className="flex justify-center my-6"
-        >
-          <button className="text-2xl">
-            <RiAddCircleLine />
-          </button>
-        </div>
-      )}
+          );
+        })}
+      </div>
     </div>
   );
 };

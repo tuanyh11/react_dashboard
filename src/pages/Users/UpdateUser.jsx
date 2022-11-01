@@ -13,7 +13,7 @@ import {
   uploadSigleImage,
 } from "../../config/api";
 import Contract from "./Contract";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { URL_APi } from "../../config/CONST";
 
 const UpdateUser = () => {
@@ -67,6 +67,9 @@ const UpdateUser = () => {
   });
 
 
+  console.log(roleId)
+
+  const nav = useNavigate()
 
   const handleOnSubmit = async (data) => {
     try {
@@ -81,11 +84,13 @@ const UpdateUser = () => {
         await updateUser(data._id,{ ...data });
         window.confirm("updated user successfully");
         handleGetData()
+        nav('/users')
         return
       }
 
       await updateUser(data._id,{ ...data });
       window.confirm("updated user successfully");
+      nav('/users')
 
     } catch (error) {
       alert("Error " + error.response.data.message);
@@ -118,6 +123,9 @@ const UpdateUser = () => {
   var isFileList = field.value instanceof FileList && field.value.length > 0;
 
   const registerImage = register("newImage");
+
+  const registerRole = register('roleId')
+
 
   return (
     <div>
@@ -210,7 +218,7 @@ const UpdateUser = () => {
                   <OptionCheckbox
                     data={roles}
                     label="Role"
-                    register={register}
+                    register={registerRole}
                     name="roleId"
                     type="radio"
                     value={watch("roleId")}

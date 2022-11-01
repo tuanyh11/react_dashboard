@@ -2,7 +2,6 @@ import {
   Ecommerce,
   Orders,
   Employees,
-
   Product,
   Category,
   UpdateProduct,
@@ -11,11 +10,11 @@ import {
   Users,
   CreateUser,
   UpdateUser,
+  CreateProduct
 } from "../pages";
 import DefaultLayout from "../Layout/DefaultLayout";
 import EmptyLayout from "../Layout/EmptyLayout";
 import Login from "../pages/Login";
-import ProductAdd from "../pages/Product/ProductAdd";
 
 export const privateRoutes = [
   /* dashboard  */
@@ -44,7 +43,7 @@ export const privateRoutes = [
 
   {
     path: "/create-product",
-    element: ProductAdd,
+    element: CreateProduct,
     layout: DefaultLayout,
   },
 
