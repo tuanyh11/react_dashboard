@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import jwt_decode from 'jwt-decode'
+import { useNavigate } from 'react-router-dom';
 
 const StateContext = createContext();
 
@@ -42,8 +43,10 @@ export const ContextProvider = ({ children }) => {
      if(exp * 1000 < new Date().getTime()) {
       setUser()
       localStorage.clear()
+      
+      window.location.reload()
      }
-    }
+    } 
   }, [])
 
   const setColor = (color) => {
