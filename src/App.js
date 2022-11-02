@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 
 import './App.css';
 
@@ -12,7 +12,7 @@ import { Login } from './pages';
 
 const App = () => {
 
-  const { setCurrentColor, setCurrentMode, currentMode} = useStateContext();
+  const { setCurrentColor, setCurrentMode, currentMode, user} = useStateContext();
 
   useEffect(() => {
     const currentThemeColor = localStorage.getItem('colorMode');
@@ -23,7 +23,7 @@ const App = () => {
     }
   }, []);
 
-  const user = JSON.parse(localStorage.getItem('user'))
+
 
   return (
     <div className={currentMode === 'Dark' ? 'dark' : ''}>
@@ -31,7 +31,7 @@ const App = () => {
         
 
           <Routes>
-            <Route element={<ProtectedRouter/>}>
+            <Route element={<ProtectedRouter Element={user ? <Outlet/> :  <Navigate to={'/login'}/>}/>}>
               {
                 privateRoutes.map((route, index) => {
 
@@ -42,7 +42,7 @@ const App = () => {
                 }) 
               }
             </Route>
-            <Route path={'/login'} element={ user?.token ? <Navigate to={'/'}/> : <EmptyLayout><Login/></EmptyLayout>} />
+            <Route path={'/login'} element={<ProtectedRouter Element={user ?  <Navigate to={'/'}/> : <EmptyLayout><Login/></EmptyLayout>}/>} />
           </Routes>
       </BrowserRouter>
     </div>

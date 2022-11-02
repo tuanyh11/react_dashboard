@@ -25,7 +25,7 @@ import {
 } from "react-icons/bs";
 import { BiColorFill } from "react-icons/bi";
 import { IoMdContacts } from "react-icons/io";
-import { RiAccountBoxFill, RiCake3Line, RiContactsLine, RiFolderUserFill, RiStockLine, RiTruckFill } from "react-icons/ri";
+import { RiAccountBoxFill, RiCake3Line, RiContactsLine, RiFolderUserFill, RiLayoutGridFill, RiStockLine, RiTruckFill } from "react-icons/ri";
 import { MdOutlineSupervisorAccount } from "react-icons/md";
 import { HiOutlineRefresh } from "react-icons/hi";
 import { TiTick } from "react-icons/ti";
@@ -481,6 +481,11 @@ export const links = [
         name: "User",
         path: 'users',
         icon: <RiContactsLine />,
+      },
+      {
+        name: "category",
+        path: 'category',
+        icon: <RiLayoutGridFill />,
       }
     ],
   }

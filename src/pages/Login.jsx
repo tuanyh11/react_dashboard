@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { login } from "../config/api";
+import { useStateContext } from "../contexts/ContextProvider";
 
 const Login = () => {
   const {
@@ -15,17 +16,22 @@ const Login = () => {
     },
   });
 
+  const{login: loginCtx} = useStateContext()
+
   const nav = useNavigate()
 
   const handleOnSubmit = async (data) => {
     try {
       const user = await login(data)
-      localStorage.setItem("user", JSON.stringify(user.data.data))
-      nav("/", {state: user.data.data})
+      loginCtx(user.data.data)
+      nav("/", {state: user})
     } catch (error) {
+      console.log(error)
       alert("Error " + error?.response?.data?.message)
     }
   };
+
+   
 
 
 
